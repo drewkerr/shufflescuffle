@@ -1,0 +1,35 @@
+doctype html
+html
+  head
+    title Shuffle Scuffle!
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    link(rel="stylesheet" href="/style.css")
+    if profile
+      style(type="text/css").
+        #img-#{profile.id} { box-shadow: 0 0 0 3px #07f; order: 1; z-index: 1; }
+        #score-#{profile.id} { color: #07f; }
+  body
+    header
+      h1 🃏 Shuffle Scuffle!
+      if profile
+        #profile
+          if profile.image
+            img(src=profile.image)
+          span #{profile.displayName}
+            a(href="logout" title="Logout") &#65339;&rarr;
+      else
+        #profile
+          a(href="login") Login to play&#65339;&larr;
+    section
+      #players
+        #container
+      #controls
+        button#higher(value="higher" disabled) Higher
+        button#lower(value="lower" disabled) Lower
+      #game
+    footer
+      #feedback Will the next card be higher or lower?
+      #scores
+    script(src="/socket.io/socket.io.js")
+    script(src="/script.js")
