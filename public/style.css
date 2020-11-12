@@ -1,0 +1,210 @@
+body, label, input, button {
+	font-family: sans-serif;
+	font-size: 25px;
+  padding: 0;
+  margin: 0;
+}
+
+header {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  align-content: space-between;
+  justify-content: space-between;
+  padding-top: 1em;
+}
+
+h1 {
+  font-size: inherit;
+  margin: 0 1em;
+}
+
+h1::first-letter { 
+  font-size: 200%;
+  vertical-align: text-top;
+}
+
+#profile {
+  display: flex;
+  align-items: center;
+  margin: 0 1em 1em;
+}
+
+#profile img {
+  height: 1em;
+  width: 1em;
+  border-radius: 50%;
+}
+
+#profile span {
+  margin-left: 0.5em;
+}
+
+#profile a,
+#profile a:visited,
+#profile a:hover {
+  color: #07f;
+  text-decoration: none;
+}
+
+section {
+  display: flex;
+}
+
+#players,
+#game {
+  display: flex;
+  width: calc(50% - 60px);
+}
+
+#players {
+  justify-content: flex-end;
+  align-items: center;
+}
+
+#players #container {
+  display: flex;
+  justify-content: flex-end;
+  max-width: 100%;
+  padding: 51px 0 30px;
+}
+
+#players img {
+  margin-left: calc(0.5em - 9%);
+  height: 2em;
+  width: 2em;
+  border-radius: 50%;
+  transition: transform 0.5s;
+}
+
+.higher {
+  transform: translateY(-50px);
+}
+
+.lower {
+  transform: translateY(50px);
+}
+
+#controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  flex-shrink: 0;
+  border: #07f 3px dashed;
+  border-radius: 4px;
+  height: 134px;
+  margin: 51px 10px 19px 20px;
+  padding: 10px;
+  width: 94px;
+}
+
+#controls button {
+  font-size: 20px;
+  padding: 10px;
+}
+
+#game {
+  overflow-x: auto;
+}
+
+#game div {
+  display: inline-block;
+  font-size: 200px;
+  background: white;
+}
+
+.red {
+  color: red;
+}
+
+.flip {
+  transform-style: preserve-3d;
+  transform-origin: center left;
+  animation: flip 0.5s ease-in forwards;
+}
+
+.flip:first-child {
+  animation: delay 0.5s forwards, 0.5s flip 0.5s ease-in forwards;
+}
+
+@keyframes delay {
+  0% {
+    margin-right: -140px;
+    transform: perspective(600px) rotateY(-90deg);
+  }
+  100% {
+    margin-right: -140px;
+    transform: perspective(600px) rotateY(-90deg);
+  }
+}
+
+@keyframes flip {
+  0% {
+    margin-right: -140px;
+    transform: perspective(600px) rotateY(-90deg);
+  }
+  50% {
+    margin-right: 0;
+    transform: perspective(600px) rotateY(-90deg);
+  }
+  100% {
+    transform: perspective(600px) rotateY(0deg);
+  }
+}
+
+.fadeout {
+  animation: fadeout 2s ease-in forwards;
+}
+
+@keyframes fadeout {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+footer {
+  text-align: center;
+  padding: 1em;
+}
+
+#scores {
+  max-width: 20em;
+  margin: 2em auto 1em;
+}
+
+#scores:not(:empty):before {
+  content: 'Leaderboard';
+  font-weight: bold;
+}
+
+#scores div {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25em;
+}
+
+#scores div:nth-child(odd) {
+  background-color: #eee;
+}
+
+.timer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #07f;
+  height: 0.5em;
+  animation-name: progress;
+  animation-timing-function: linear;
+}
+
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}

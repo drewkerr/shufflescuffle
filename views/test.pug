@@ -1,0 +1,70 @@
+doctype html
+html
+  head
+    title Shuffle Scuffle!
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    link(rel="stylesheet" href="/style.css")
+    - var cards = 10
+    - var people = 5
+    - var names = ["Bartholomew Shoe", "Weir Doe", "Abraham Pigeon", "Gunther Beard", "Hermann P. Schnitzel", "Nigel Nigel", "Fig Nelson", "Gibson Montgomery-Gibson", "Caspian Bellevedere", "Lance Bogrol", "Gustav Purpleson", "Inverness McKenzie", "Dylan Meringue", "Archibald Northbottom", "Niles Peppertrout", "Brian Cumin", "Fleece Marigold", "Shequondolisa Bivouac", "Indigo Violet", "Natalya Undergrowth", "Wisteria Ravenclaw", "Rodney Artichoke", "Fletch Skinner", "Piff Jenkins", "Carnegie Mondover", "Valentino Morose", "Eric Widget", "Giles Posture", "Norman Gordon", "Gordon Norman", "Burgundy Flemming", "Girth Wiedenbauer", "Lurch Schpellchek", "Parsley Montana", "Fergus Douchebag", "Ursula Gurnmeister", "Bodrum Salvador", "Pelican Steve", "Gideon Guernsey-Marmaduke", "Druid Wensleydale", "Linguina Nettlewater", "Chaplain Mondover", "Jarvis Pepperspray", "Jonquil Von Haggerston", "Brandon Guidelines", "Sue Shei", "Ingredia Nutrisha", "Cecil Hipplington-Shoreditch", "Penny Tool", "Samuel Serif", "Manuel Internetiquette", "Eleanor Fant", "Nathaneal Down", "Hanson Deck", "Desmond Eagle", "Richard Tea", "Quiche Hollandaise", "Hans Down", "Will Barrow", "Guy Mann", "Phillip Anthropy", "Benjamin Evalent", "Sir Cumference", "Dianne Ameter", "Alan Fresco", "Spruce Springclean", "Chauffina Carr", "Max Conversion", "Malcolm Function", "Ruby Von Rails", "Jason Response", "Jake Weary", "Justin Case", "Douglas Lyphe", "Ruüd van Driver", "Theodore Handle", "Hilary Ouse", "Dominic L. Ement", "Hugh Saturation", "Jackson Pot", "Elon Gated", "Russell Sprout", "Jim Séchen", "Hugh Millie-Yate", "Joss Sticks", "Thomas R. Toe", "Miles Tone", "Ravi O'Leigh", "Barry Tone"].sort(() => Math.random() - 0.5).slice(0, people)
+  body
+    header
+      h1 🃏 Shuffle Scuffle!
+      - var profile = names[0]
+      #profile
+        - var hue = profile.charCodeAt() * 14 - 900
+        img(src=`data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96"><rect fill="hsl(${hue}, 50%, 50%)" width="96" height="96"/><text fill="white" font-family="sans-serif" font-size="64" dy="24" font-weight="bold" x="50%" y="50%" text-anchor="middle">${profile[0]}</text></svg>`)
+        span= profile
+          a(href="logout" title="Logout") &#65339;&rarr;
+    section
+      #players
+        #container
+          each name in names
+            - var hue = name.charCodeAt() * 14 - 900
+            - var choice = ['higher', 'lower', ''][Math.floor(Math.random() * 3)]
+            if name == profile
+              img(style="box-shadow: 0 0 0 3px #07f; order: 1; z-index: 1;" class=`${choice}` title=`${name}` src=`data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96"><rect fill="hsl(${hue}, 50%, 50%)" width="96" height="96"/><text fill="white" font-family="sans-serif" font-size="64" dy="24" font-weight="bold" x="50%" y="50%" text-anchor="middle">${name[0]}</text></svg>`)
+            else
+              img(class=`${choice}` title=`${name}` src=`data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96"><rect fill="hsl(${hue}, 50%, 50%)" width="96" height="96"/><text fill="white" font-family="sans-serif" font-size="64" dy="24" font-weight="bold" x="50%" y="50%" text-anchor="middle">${name[0]}</text></svg>`)
+      #controls
+        button#higher(value="higher" disabled) Higher
+        button#lower(value="lower" disabled) Lower
+      #game
+        - deck = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13].map( (v) => Array(4).fill(v).map( (x, y) => x + y*16) ).reduce((a, b) => a.concat(b)).sort(() => Math.random() - 0.5).slice(0, cards)
+        each card in deck
+          div
+            if ( 15 < card && card < 46 )
+              span.red!= '&#1271' + ( card + 37 ) + ';'
+            else
+              span!= '&#1271' + ( card + 37 ) + ';'
+    footer
+      #feedback Will the next card be higher or lower?
+      #scores
+        -
+          function BoxMuller(min, max, skew) {
+            let u = 0, v = 0
+            while(u === 0) u = Math.random()
+            while(v === 0) v = Math.random()
+            let num = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v )
+            num = num / 10.0 + 0.5
+            if (num > 1 || num < 0) num = BoxMuller(min, max, skew)
+            num = Math.pow(num, skew)
+            num *= max - min
+            num += min
+            return parseInt(num)
+          }
+          var scores = []
+          for (let name of names) {
+            scores.push([name, BoxMuller(0, 50, 2)])
+          }
+          scores.sort((a, b) => b[1] - a[1])
+        each score in scores
+          if score[0] == profile
+            div(style="color: #07f;")
+              span= score[0]
+              span= score[1]
+          else
+            div
+              span= score[0]
+              span= score[1]
